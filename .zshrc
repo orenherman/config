@@ -20,6 +20,8 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 zinit load agkozak/zsh-z
+zinit wait lucid light-mode for lukechilds/zsh-nvm
+
 
 # completion style
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
