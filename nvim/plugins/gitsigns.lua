@@ -4,6 +4,13 @@ return {
   },
   {
     'tpope/vim-fugitive',
+    dependencies = {
+      { 'tpope/vim-rhubarb' },
+    },
+    config = function()
+      require('gitsigns').setup()
+      vim.keymap.set('n', '<leader>gb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
+    end,
   },
   {
     'lewis6991/gitsigns.nvim',

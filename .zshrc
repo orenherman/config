@@ -21,7 +21,8 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 zinit load agkozak/zsh-z
 zinit wait lucid light-mode for lukechilds/zsh-nvm
-
+zinit load 'zsh-users/zsh-history-substring-search'
+zinit ice wait atload'_history_substring_search_config'
 
 # completion style
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -30,11 +31,11 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-bindings 'ctrl-y:accept'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-bindkey '\eOA' history-substring-search-up # or ^[OA
-bindkey '\eOB' history-substring-search-down # or ^[OB
+bindkey '^p' history-substring-search-up # or ^[OA
+bindkey '^n' history-substring-search-down # or ^[OB
 bindkey -e
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
+# bindkey '^p' history-search-backward
+# bindkey '^n' history-search-forward
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
