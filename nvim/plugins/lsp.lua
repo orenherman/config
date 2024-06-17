@@ -72,7 +72,7 @@ return {
         },
         pyright = {},
         volar = {},
-        eslint = {},
+        bufls = {},
         tsserver = {
           init_options = {
             plugins = {

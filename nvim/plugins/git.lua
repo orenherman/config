@@ -1,18 +1,38 @@
 return {
+  -- {
+  --   'SuperBo/fugit2.nvim',
+  --   opts = {
+  --     -- width = 70,
+  --     libgit2_path = '/opt/homebrew/lib/libgit2.dylib',
+  --   },
+  --   dependencies = {
+  --     'MunifTanjim/nui.nvim',
+  --     'nvim-tree/nvim-web-devicons',
+  --     'nvim-lua/plenary.nvim',
+  --   },
+  --   cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph' },
+  --   keys = {
+  --     { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' },
+  --   },
+  -- },
+  --
   {
-    'SuperBo/fugit2.nvim',
-    opts = {
-      -- width = 70,
-      libgit2_path = '/opt/homebrew/lib/libgit2.dylib',
+    'kdheepak/lazygit.nvim',
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
     },
+    -- optional for floating window border decoration
     dependencies = {
-      'MunifTanjim/nui.nvim',
-      'nvim-tree/nvim-web-devicons',
       'nvim-lua/plenary.nvim',
     },
-    cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph' },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
     keys = {
-      { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' },
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
   {
