@@ -120,12 +120,12 @@ return {
     lazy = false,
     keys = {
       {
-        '<leader>l',
+        '<leader>f',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
-        desc = '[L]format buffer',
+        desc = '[F]format buffer',
       },
     },
     opts = {
