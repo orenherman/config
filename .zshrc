@@ -84,10 +84,13 @@ alias gmd='git fetch && git merge origin/develop'
 alias gmm='git fetch && git merge origin/master'
 alias gcb='git checkout -b '
 alias gpu='git push -u origin $(git branch --show)'
+alias gp='git push'
 alias pgtnlp="~/dev/cloud_sql_proxy -instances=stackpulse-production:us-central1:torqdb=tcp:5432"
 alias pgtnls="~/dev/cloud_sql_proxy -instances=stackpulse-staging:europe-west1:torqdb=tcp:5431"
 alias pgtnld="~/dev/cloud_sql_proxy -instances=stackpulse-development:europe-west1:stackpulsedb=tcp:5430"
-
+tq-whois () {
+	grep $1 $HOME/dev/accounts.csv
+}
 prd-bq-fetch-workflow () {
 	workflow_id=$1
 	bq-fetch-workflow stackpulse-production $workflow_id
@@ -101,6 +104,33 @@ bq-fetch-workflow () {
 	bq query --format=prettyjson --use_legacy_sql=false $query 2> /dev/null | jq '.[0].data' -r > $fetch_wf_output_path
 	# cat $fetch_wf_output_path | yq -r -P - | code -
         ynv $fetch_wf_output_path
+}
+bq-dump-all-accounts () {
+	project=${1:-"stackpulse-production"}
+	accounts_file="$HOME/dev/accounts.csv"
+	accounts_file_backup="$HOME/dev/accounts.csv.bk"
+	cp $accounts_file $accounts_file_backup
+	query=$(cat << EOF
+	SELECT
+  o.name AS organization_name,
+  a.short_name AS account_short_name,
+  a.name AS account_name,
+  a.id AS account_id,
+  o.id AS organization_id
+FROM
+  $project.bi.dim_accounts a
+LEFT JOIN
+  $project.bi.dim_orgs o
+ON
+  o.id = a.organization_id
+ORDER BY
+  o.id DESC
+
+EOF
+)
+	tmp_accounts_file="/tmp/accounts.tmp.json"
+	bq query --format=prettyjson --use_legacy_sql=false --max_rows 100000 $query 2> /dev/null > $tmp_accounts_file
+	cat $tmp_accounts_file | jq -r '.[] | [.organization_name, .account_short_name, .account_name, .account_id ] | @csv' | sort | tr -d '"' > $accounts_file
 }
 ynv () {
         yq $1 -o=json | jnv
