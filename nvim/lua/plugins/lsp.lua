@@ -102,6 +102,8 @@ return {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'eslint_d', -- Used to format JavaScript and Vue code
+        'prettier',
+        'yq', -- Used to format YAML code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
       require('mason-lspconfig').setup {
@@ -125,11 +127,11 @@ return {
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
-        desc = '[F]format buffer',
+        desc = '[f]format buffer',
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         local disable_filetypes = { c = true, cpp = true }
         return {
@@ -142,12 +144,8 @@ return {
         vue = { 'eslint_d' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        yaml = { 'yq' },
+        json = { 'prettier' },
       },
     },
   },
@@ -230,5 +228,52 @@ return {
         }),
       })
     end,
+  },
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    keys = {
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        'S',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash Treesitter',
+      },
+      {
+        'r',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = 'Remote Flash',
+      },
+      {
+        'R',
+        mode = { 'o', 'x' },
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Treesitter Search',
+      },
+      {
+        '<c-s>',
+        mode = { 'c' },
+        function()
+          require('flash').toggle()
+        end,
+        desc = 'Toggle Flash Search',
+      },
+    },
   },
 }

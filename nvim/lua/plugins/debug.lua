@@ -74,6 +74,32 @@ return {
           disconnect = '⏏',
         },
       },
+      layouts = {
+        {
+          elements = {
+            {
+              id = 'scopes',
+              size = 0.75,
+            },
+            {
+              id = 'breakpoints',
+              size = 0.25,
+            },
+          },
+          position = 'left',
+          size = 70,
+        },
+        {
+          elements = {
+            {
+              id = 'console',
+              size = 1,
+            },
+          },
+          position = 'bottom',
+          size = 25,
+        },
+      },
     }
 
     vim.keymap.set('n', '<F3>', dapui.toggle, { desc = 'Debug: See last session result.' })
