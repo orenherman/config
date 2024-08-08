@@ -147,6 +147,16 @@ return {
         yaml = { 'yq' },
         json = { 'prettier' },
       },
+      formatters = {
+        prettier = {
+          args = {
+            '--stdin-filepath',
+            '$FILENAME',
+            '--config',
+            vim.fn.expand '~/.prettierrc',
+          },
+        },
+      },
     },
   },
   { -- Autocompletion

@@ -5,14 +5,6 @@ return {
     'nvim-neotest/nvim-nio',
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-    --    {
-    --
-    --'mfussenegger/nvim-dap-python',
-    --      config = function()
-    --      require('dap-python').setup '/Users/orenherman/.virtualenvs/debugpy/bin/python' --"~/venvs/debugpy/bin/python")
-    --    require('dap-python').test_runner = 'pytest'
-    --      end,
-    --  },
   },
   config = function()
     local dap = require 'dap'
@@ -25,9 +17,10 @@ return {
           require('mason-nvim-dap').default_setup(config)
         end,
         python = function(config)
+          local home_dir = os.getenv 'HOME'
           config.adapters = {
             type = 'executable',
-            command = '/Users/orenherman/.virtualenvs/debugpy/bin/python',
+            command = home_dir .. '/virtualenvs/debugpy/bin/python',
             args = {
               '-m',
               'debugpy.adapter',
