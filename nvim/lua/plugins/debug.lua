@@ -5,6 +5,7 @@ return {
     'nvim-neotest/nvim-nio',
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
+    'leoluz/nvim-dap-go',
   },
   config = function()
     local dap = require 'dap'
@@ -20,7 +21,7 @@ return {
           local home_dir = os.getenv 'HOME'
           config.adapters = {
             type = 'executable',
-            command = home_dir .. '/virtualenvs/debugpy/bin/python',
+            command = home_dir .. '/.virtualenvs/debugpy/bin/python',
             args = {
               '-m',
               'debugpy.adapter',
@@ -98,7 +99,7 @@ return {
     vim.keymap.set('n', '<F3>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     dap.adapters.delve = {

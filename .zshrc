@@ -72,7 +72,12 @@ export GOOS=darwin
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=fg=red,bold,underline
 
 # aliases
-alias ls='ls --color'
+alias vim=nvim
+alias sf='fzf -m --preview="bat --color=always {}" --bind "ctrl-w:execute(nvim {+})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort"'
+alias -g W='| nvim -c "setlocal buftype=nofile bufhidden=wipe" -c "nnoremap <buffer> q :q!<CR>" -'
+alias lsa='eza -1 -l --icons'
+# alias ls='eza'
+alias ls="eza --color=always --git --no-user --no-permissions --icons=always --group-directories-first"
 alias jqre="jq '.message | fromjson'"
 alias jqr="jq '.message | fromjson | {severity, timestamp, message, caller, \"logging.googleapis.com/trace\"}'"
 alias log='git log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cgreen\\ [%cn]" --decorate --date=short'

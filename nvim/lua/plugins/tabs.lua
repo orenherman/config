@@ -30,13 +30,18 @@ return {
         options = {
           disabled_filetypes = { 'neo-tree' },
         },
+        sections = {
+          lualine_c = {
+            { 'filename', path = 1 },
+          },
+        },
       }
     end,
   },
-  { 
+  {
     'folke/which-key.nvim',
-    event = 'VimEnter', 
-    config = function() 
+    event = 'VimEnter',
+    config = function()
       require('which-key').setup()
 
       require('which-key').register {
@@ -66,5 +71,6 @@ return {
       },
       current_line_blame = true,
     },
-  },  
+  },
 }
+

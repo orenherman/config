@@ -22,6 +22,7 @@ vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>Fj', '<cmd>set filetype=json<CR>', { desc = 'Set [F]iletype to [J]SON' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
@@ -40,6 +41,9 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<C-b>w', ':bp<bar>sp<bar>bn<bar>bd<CR>', { desc = 'Close current buffer' })
 vim.keymap.set('n', 'P', 'o<Esc>p')
+vim.keymap.set('n', '<leader>sa', 'ggVG', { desc = 'select all' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'scroll up and center' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'scroll down and center' })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

@@ -45,7 +45,9 @@ return {
     },
     config = function()
       require('gitsigns').setup()
-      vim.keymap.set('n', '<leader>gb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
+      vim.keymap.set('n', '<leader>gbb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
+      vim.keymap.set('n', '<leader>gbc', ':.GBrowse!<CR>', { desc = '[G]it [B]rowse [C]opy' })
+      vim.keymap.set('n', '<leader>gbl', ':.GBrowse<CR>', { desc = '[G]it [B]rowse [L]ine' })
     end,
   },
   {

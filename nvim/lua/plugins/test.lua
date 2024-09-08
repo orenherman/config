@@ -23,11 +23,13 @@ return {
     local home_dir = os.getenv 'HOME'
     neotest.setup {
       adapters = {
-        require 'neotest-golang',
+        require 'neotest-golang' {
+          dap_go_enabled = true,
+        },
         require 'neotest-vitest',
         require 'neotest-python' {
           runner = 'pytest',
-          python = home_dir .. '/virtualenvs/debugpy/bin/python',
+          python = home_dir .. '/.virtualenvs/debugpy/bin/python',
           dap = {
             python = { '-Xfrozen_modules=off', '--multiprocess', '--qt-support=auto' },
             console = 'integratedTerminal',
