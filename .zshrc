@@ -8,17 +8,17 @@ source "${ZINIT_HOME}/zinit.zsh"
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-zinit ice depth"1"
+zinit ice depth "1"
 zinit light romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh # Fuzzy search install
-
+autoload -Uz compinit; compinit
 # add plugins
+zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
-zinit light Aloxaf/fzf-tab
 zinit load agkozak/zsh-z
 zinit wait lucid light-mode for lukechilds/zsh-nvm
 zinit load 'zsh-users/zsh-history-substring-search'
@@ -146,9 +146,4 @@ function gcob() {
         git checkout -b $branch_name origin/master
  }
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/orenherman/dev/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/orenherman/dev/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/orenherman/dev/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/orenherman/dev/google-cloud-sdk/completion.zsh.inc'; fi
 
