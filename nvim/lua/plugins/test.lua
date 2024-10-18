@@ -14,6 +14,7 @@ return {
     },
     'nvim-neotest/neotest-python',
     'marilari88/neotest-vitest',
+    'nvim-neotest/neotest-jest',
   },
   cmd = {
     'Neotest',
@@ -34,10 +35,10 @@ return {
             python = { '-Xfrozen_modules=off', '--multiprocess', '--qt-support=auto' },
             console = 'integratedTerminal',
             justMyCode = false,
-            stopOnEntry = true,
             subProcess = true,
           },
         },
+        require 'neotest-jest',
       },
       log_level = 1,
     }
