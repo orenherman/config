@@ -38,7 +38,14 @@ return {
             subProcess = true,
           },
         },
-        require 'neotest-jest',
+        require 'neotest-jest' {
+          jestCommand = 'npm test --',
+          jestConfigFile = 'custom.jest.config.ts',
+          env = { CI = true },
+          cwd = function(path)
+            return vim.fn.getcwd()
+          end,
+        },
       },
       log_level = 1,
     }
