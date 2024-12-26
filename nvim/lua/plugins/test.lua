@@ -39,7 +39,17 @@ return {
           },
         },
         require 'neotest-jest' {
-          jestCommand = 'npm test --',
+          -- jestCommand = 'npm test --',
+          jestCommand = function(path)
+            print('path', path)
+            if string.find(path, 'ui/tests/integration', 1, true) then
+              return 'npm run test:integration --'
+            end
+            if string.find(path, 'ui/tests/unit', 1, true) then
+              return 'npm run test:unit --'
+            end
+            return 'npm test --'
+          end,
           jestConfigFile = 'custom.jest.config.ts',
           env = { CI = true },
           cwd = function(path)

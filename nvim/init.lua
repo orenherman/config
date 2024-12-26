@@ -47,6 +47,20 @@ vim.keymap.set('n', '<leader>sa', 'ggVG', { desc = 'select all' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'scroll up and center' })
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'scroll down and center' })
 
+function _G.add_current_line_to_qf()
+  local current_line = vim.fn.line '.'
+  local current_file = vim.fn.expand '%:p'
+  local line_text = vim.fn.getline(current_line)
+  local qf_item = {
+    filename = current_file,
+    lnum = current_line,
+    text = line_text,
+  }
+  vim.fn.setqflist({ qf_item }, 'a') -- 'a' flag appends to existing list
+end
+
+vim.keymap.set('n', '<leader>qq', _G.add_current_line_to_qf, { noremap = true, silent = true })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),

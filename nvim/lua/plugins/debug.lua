@@ -60,22 +60,10 @@ return {
         dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
       end, { desc = 'Debug: Set Breakpoint' })
 
-      dapui.setup {
-        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-        controls = {
-          icons = {
-            pause = '⏸',
-            play = '▶',
-            step_into = '⏎',
-            step_over = '⏭',
-            step_out = '⏮',
-            step_back = 'b',
-            run_last = '▶▶',
-            terminate = '⏹',
-            disconnect = '⏏',
-          },
-        },
-        layouts = {
+      dapui.setup()
+
+      local layouts = {
+        default = {
           {
             elements = {
               {
@@ -88,7 +76,7 @@ return {
               },
             },
             position = 'left',
-            size = 70,
+            size = 0.25,
           },
           {
             elements = {
@@ -98,16 +86,102 @@ return {
               },
             },
             position = 'bottom',
-            size = 25,
+            size = 0.3,
+          },
+        },
+        go = {
+          {
+            elements = {
+              {
+                id = 'scopes',
+                size = 0.75,
+              },
+              {
+                id = 'breakpoints',
+                size = 0.25,
+              },
+            },
+            position = 'left',
+            size = 0.25,
+          },
+          {
+            elements = {
+              {
+                id = 'repl',
+                size = 1,
+              },
+            },
+            position = 'bottom',
+            size = 0.3,
           },
         },
       }
 
-      vim.keymap.set('n', '<F3>', dapui.toggle, { desc = 'Debug: See last session result.' })
+      local is_visible = false
 
-      dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+      local function update_layout()
+        local ft = vim.bo.filetype
+        local layout = layouts.default
+
+        -- Adjust layout based on filetype
+        if ft == 'go' then
+          layout = layouts.go
+        end
+
+        local c = {
+          icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+          controls = {
+            icons = {
+              pause = '⏸',
+              play = '▶',
+              step_into = '⏎',
+              step_over = '⏭',
+              step_out = '⏮',
+              step_back = 'b',
+              run_last = '▶▶',
+              terminate = '⏹',
+              disconnect = '⏏',
+            },
+            element = 'console',
+          },
+          layouts = layout,
+        }
+        if is_visible then
+          dapui.close()
+          dapui.setup(c)
+          dapui.open()
+        else
+          dapui.setup(c)
+        end
+      end
+
+      local function toggle_dapui()
+        is_visible = not is_visible
+
+        if is_visible then
+          update_layout() -- Ensure correct layout before opening
+          dapui.open()
+        else
+          dapui.close()
+          require('../neotreeresize').resize()
+        end
+      end
+
+      vim.keymap.set('n', '<F3>', function()
+        toggle_dapui()
+      end, { desc = 'Debug: See last session result.' })
+
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        is_visible = true
+        update_layout()
+        dapui.open()
+      end
       -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-      dap.listeners.before.event_exited['dapui_config'] = dapui.close
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        is_visible = false
+        dapui.close()
+        require('../neotreeresize').resize()
+      end
 
       require('dap-vscode-js').setup {
         debugger_path = vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug',
@@ -148,51 +222,6 @@ return {
           } or nil,
         }
       end
-
-      dap.adapters.delve = {
-        type = 'server',
-        port = '${port}',
-        executable = {
-          command = 'dlv',
-          args = { 'dap', '-l', '127.0.0.1:${port}' },
-        },
-      }
-
-      -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-      dap.configurations.go = {
-        {
-          type = 'delve',
-          name = 'Debug',
-          request = 'launch',
-          program = '${file}',
-        },
-        -- works with go.mod packages and sub packages
-        {
-          type = 'delve',
-          name = 'Debug tests (go.mod)',
-          request = 'launch',
-          mode = 'test',
-          program = './${relativeFileDirname}',
-        },
-        {
-          type = 'delve',
-          name = 'Debug Single Test',
-          request = 'launch',
-          mode = 'test',
-          program = './${relativeFileDirname}',
-          args = function()
-            local test_name = vim.fn.expand '<cword>'
-            return { '-test.run', test_name }
-          end,
-        },
-        {
-          type = 'delve',
-          name = 'Debug test', -- configuration for debugging test files
-          request = 'launch',
-          mode = 'test',
-          program = '${file}',
-        },
-      }
     end,
   },
   {
