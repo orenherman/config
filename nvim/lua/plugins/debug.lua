@@ -146,13 +146,8 @@ return {
           },
           layouts = layout,
         }
-        if is_visible then
-          dapui.close()
-          dapui.setup(c)
-          dapui.open()
-        else
-          dapui.setup(c)
-        end
+
+        dapui.setup(c)
       end
 
       local function toggle_dapui()
@@ -172,12 +167,15 @@ return {
       end, { desc = 'Debug: See last session result.' })
 
       dap.listeners.after.event_initialized['dapui_config'] = function()
+        if is_visible then
+          return
+        end
         is_visible = true
         update_layout()
         dapui.open()
       end
       -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-      dap.listeners.before.event_exited['dapui_config'] = function()
+      dap.listeners.after.event_exited['dapui_config'] = function()
         is_visible = false
         dapui.close()
         require('../neotreeresize').resize()
