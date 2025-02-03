@@ -22,22 +22,22 @@ return {
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-  {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('lualine').setup {
-        options = {
-          disabled_filetypes = { 'neo-tree' },
-        },
-        sections = {
-          lualine_c = {
-            { 'filename', path = 1 },
-          },
-        },
-      }
-    end,
-  },
+  -- {
+  --   'nvim-lualine/lualine.nvim',
+  --   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  --   config = function()
+  --     require('lualine').setup {
+  --       options = {
+  --         disabled_filetypes = { 'neo-tree' },
+  --       },
+  --       sections = {
+  --         lualine_c = {
+  --           { 'filename', path = 1 },
+  --         },
+  --       },
+  --     }
+  --   end,
+  -- },
   {
     'folke/which-key.nvim',
     event = 'VimEnter',
@@ -73,4 +73,3 @@ return {
     },
   },
 }
-

@@ -41,7 +41,6 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<C-b>w', ':bp<bar>sp<bar>bn<bar>bd<CR>', { desc = 'Close current buffer' })
 vim.keymap.set('n', 'P', 'o<Esc>p')
 vim.keymap.set('n', '<leader>sa', 'ggVG', { desc = 'select all' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'scroll up and center' })

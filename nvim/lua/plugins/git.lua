@@ -38,18 +38,18 @@ return {
   {
     'github/copilot.vim',
   },
-  {
-    'tpope/vim-fugitive',
-    dependencies = {
-      { 'tpope/vim-rhubarb' },
-    },
-    config = function()
-      require('gitsigns').setup()
-      vim.keymap.set('n', '<leader>gbb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
-      vim.keymap.set('n', '<leader>gbc', ':.GBrowse!<CR>', { desc = '[G]it [B]rowse [C]opy' })
-      vim.keymap.set('n', '<leader>gbl', ':.GBrowse<CR>', { desc = '[G]it [B]rowse [L]ine' })
-    end,
-  },
+  -- {
+  --   'tpope/vim-fugitive',
+  --   dependencies = {
+  --     { 'tpope/vim-rhubarb' },
+  --   },
+  --   config = function()
+  --     require('gitsigns').setup()
+  --     vim.keymap.set('n', '<leader>gbb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
+  --     vim.keymap.set('n', '<leader>gbc', ':.GBrowse!<CR>', { desc = '[G]it [B]rowse [C]opy' })
+  --     vim.keymap.set('n', '<leader>gbl', ':.GBrowse<CR>', { desc = '[G]it [B]rowse [L]ine' })
+  --   end,
+  -- },
   {
     'lewis6991/gitsigns.nvim',
     opts = {
