@@ -22,6 +22,10 @@ return {
   },
   config = function()
     require('avante_lib').load()
-    require('avante').setup()
+    require('avante').setup {
+      claude = {
+        disable_tools = true, -- Disable tools for now (it's enabled by default) as it's causing rate-limit problems with Claude, see more here: https://github.com/yetone/avante.nvim/issues/1384
+      },
+    }
   end,
 }

@@ -43,10 +43,10 @@ return {
           jestCommand = function(path)
             print('path', path)
             if string.find(path, 'ui/tests/integration', 1, true) then
-              return 'npm run test:integration --'
+              return 'pnpm run test:integration --'
             end
             if string.find(path, 'ui/tests/unit', 1, true) then
-              return 'npm run test:unit --'
+              return 'pnpm run test:unit --'
             end
             return 'npm test --'
           end,

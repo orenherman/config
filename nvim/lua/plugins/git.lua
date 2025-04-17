@@ -35,9 +35,9 @@ return {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
-  {
-    'github/copilot.vim',
-  },
+  -- {
+  --   'github/copilot.vim',
+  -- },
   -- {
   --   'tpope/vim-fugitive',
   --   dependencies = {
