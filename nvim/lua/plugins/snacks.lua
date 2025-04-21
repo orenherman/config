@@ -20,6 +20,14 @@ return {
     scroll = { enabled = true },
     -- statuscolumn = { enabled = true },
     words = { enabled = true },
+    dashboard = {
+      sections = {
+        { section = "header" },
+        { section = "keys", gap = 1, padding = 2 },
+        { icon = " ", title = "Projects", section = "projects", indent = 2, limit = 10 },
+        { section = "startup" },
+      },
+    }
   },
   keys = {
     -- Top Pickers & Explorer
@@ -82,6 +90,13 @@ return {
         Snacks.bufdelete()
       end,
       desc = 'Delete Buffer',
+    },
+    {
+      '<C-b>W',
+      function()
+        Snacks.bufdelete.all()
+      end,
+      desc = 'Delete All Buffers',
     },
     {
       '<leader>gB',

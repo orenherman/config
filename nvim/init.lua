@@ -137,7 +137,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.lsp.enable { 'gopls', 'pyright', 'luals', 'volar', 'ts_ls' }
+vim.lsp.enable { 'gopls', 'pyright', 'luals', 'ts_ls' }
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then

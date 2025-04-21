@@ -26,19 +26,32 @@ end
 return {
   name = 'volar',
   cmd = { 'vls', '--stdio' },
-  filetypes = { 'vue' },
   root_dir = vim.fs.root(0, { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' }),
-  init_options = {
+  -- init_options = {
+  --   typescript = {
+  --     tsdk = get_typescript_server_path('/Users/orenherman/Library/pnpm/nodejs/22.13.0/lib')
+  --   },
+  -- },
+  settings = {
     typescript = {
-      tsdk = '',
+      inlayHints = {
+        enumMemberValues = {
+          enabled = true,
+        },
+        functionLikeReturnTypes = {
+          enabled = true,
+        },
+        propertyDeclarationTypes = {
+          enabled = true,
+        },
+        parameterTypes = {
+          enabled = true,
+          suppressWhenArgumentMatchesName = true,
+        },
+        variableTypes = {
+          enabled = true,
+        },
+      },
     },
   },
-  settings = {
-    volar = {},
-  },
-  on_new_config = function(new_config, new_root_dir)
-    if new_config.init_options and new_config.init_options.typescript and new_config.init_options.typescript.tsdk == '' then
-      new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-    end
-  end,
 }
