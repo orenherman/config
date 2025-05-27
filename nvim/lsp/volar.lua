@@ -27,11 +27,11 @@ return {
   name = 'volar',
   cmd = { 'vls', '--stdio' },
   root_dir = vim.fs.root(0, { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' }),
-  -- init_options = {
-  --   typescript = {
-  --     tsdk = get_typescript_server_path('/Users/orenherman/Library/pnpm/nodejs/22.13.0/lib')
-  --   },
-  -- },
+  init_options = {
+    vue = {
+      hybridMode = true
+    }
+  },
   settings = {
     typescript = {
       inlayHints = {

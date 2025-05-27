@@ -43,7 +43,7 @@ return {
   },
   {
     'saghen/blink.cmp',
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = { 'rafamadriz/friendly-snippets', "giuxtaposition/blink-cmp-copilot", },
 
     version = '1.*',
 
@@ -71,10 +71,20 @@ return {
       -- (Default) Only show the documentation popup when manually triggered
       completion = { documentation = { auto_show = false } },
 
+      signature = { enabled = true, window = { show_documentation = false } },
+
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
 
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance

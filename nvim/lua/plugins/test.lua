@@ -43,7 +43,7 @@ return {
           jestCommand = function(path)
             print('path', path)
             if string.find(path, 'ui/tests/integration', 1, true) then
-              return 'pnpm run test:integration --'
+              return 'pnpm run test:integration:chromium --debug'
             end
             if string.find(path, 'ui/tests/unit', 1, true) then
               return 'pnpm run test:unit --'

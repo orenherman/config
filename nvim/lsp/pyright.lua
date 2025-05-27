@@ -1,6 +1,25 @@
+local function get_python_path(workspace)
+  -- First, try to find a virtual environment in common locations
+  local venv_paths = {
+    workspace .. '/.venv/bin/python',
+    workspace .. '/venv/bin/python',
+    workspace .. '/env/bin/python',
+    workspace .. '/.env/bin/python',
+  }
+
+  for _, path in ipairs(venv_paths) do
+    if vim.fn.executable(path) == 1 then
+      return path
+    end
+  end
+
+  -- Fallback to system python
+  return "/Users/orenherman/.virtualenvs/debugpy/bin/python"
+end
+
 return {
   cmd = { 'pyright-langserver', '--stdio' },
-  filetypes = { 'python' },
+  filetypes = { 'python', 'py' },
   root_markers = {
     'Pipfile',
     'setup.py',
@@ -16,7 +35,24 @@ return {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
+        oren = "oren"
       },
     },
   },
+  on_attach = function(client, _)
+    local root_dir = nil
+
+    if client.workspace_folders and #client.workspace_folders > 0 then
+      root_dir = client.workspace_folders[1].name
+    end
+
+    if root_dir then
+      local ppath = get_python_path(root_dir)
+      client.config.settings.python.pythonPath = ppath
+
+      client.notify('workspace/didChangeConfiguration', {
+        settings = client.config.settings
+      })
+    end
+  end,
 }
