@@ -1,21 +1,4 @@
 return {
-  -- {
-  --   'SuperBo/fugit2.nvim',
-  --   opts = {
-  --     -- width = 70,
-  --     libgit2_path = '/opt/homebrew/lib/libgit2.dylib',
-  --   },
-  --   dependencies = {
-  --     'MunifTanjim/nui.nvim',
-  --     'nvim-tree/nvim-web-devicons',
-  --     'nvim-lua/plenary.nvim',
-  --   },
-  --   cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph' },
-  --   keys = {
-  --     { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' },
-  --   },
-  -- },
-  --
   {
     'kdheepak/lazygit.nvim',
     cmd = {
@@ -35,21 +18,6 @@ return {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
-  -- {
-  --   'github/copilot.vim',
-  -- },
-  -- {
-  --   'tpope/vim-fugitive',
-  --   dependencies = {
-  --     { 'tpope/vim-rhubarb' },
-  --   },
-  --   config = function()
-  --     require('gitsigns').setup()
-  --     vim.keymap.set('n', '<leader>gbb', ':GBrowse<CR>', { desc = '[G]it [B]rowse' })
-  --     vim.keymap.set('n', '<leader>gbc', ':.GBrowse!<CR>', { desc = '[G]it [B]rowse [C]opy' })
-  --     vim.keymap.set('n', '<leader>gbl', ':.GBrowse<CR>', { desc = '[G]it [B]rowse [L]ine' })
-  --   end,
-  -- },
   {
     'lewis6991/gitsigns.nvim',
     opts = {

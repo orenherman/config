@@ -106,13 +106,13 @@ return {
       desc = 'Git Browse',
       mode = { 'n', 'v' },
     },
-    {
-      '<c-/>',
-      function()
-        Snacks.terminal()
-      end,
-      desc = 'Toggle Terminal',
-    },
+    -- {
+    --   '<c-/>',
+    --   function()
+    --     Snacks.terminal()
+    --   end,
+    --   desc = 'Toggle Terminal',
+    -- },
     {
       '<C-M-/>',
       function()
