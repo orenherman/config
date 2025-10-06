@@ -35,7 +35,6 @@ return {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
-        oren = "oren"
       },
     },
   },

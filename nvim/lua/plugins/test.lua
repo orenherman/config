@@ -1,3 +1,22 @@
+local function get_python_path(workspace)
+  -- First, try to find a virtual environment in common locations
+  local venv_paths = {
+    workspace .. '/.venv/bin/python',
+    workspace .. '/venv/bin/python',
+    workspace .. '/env/bin/python',
+    workspace .. '/.env/bin/python',
+  }
+
+  for _, path in ipairs(venv_paths) do
+    if vim.fn.executable(path) == 1 then
+      return path
+    end
+  end
+
+  -- Fallback to system python
+  return "/Users/orenherman/.virtualenvs/debugpy/bin/python"
+end
+
 return {
   'nvim-neotest/neotest',
   ft = { 'python', 'go', 'typescript', 'javascript' },
@@ -21,7 +40,6 @@ return {
   },
   config = function()
     local neotest = require 'neotest'
-    local home_dir = os.getenv 'HOME'
     neotest.setup {
       adapters = {
         require 'neotest-golang' {
@@ -30,7 +48,7 @@ return {
         require 'neotest-vitest',
         require 'neotest-python' {
           runner = 'pytest',
-          python = home_dir .. '/.virtualenvs/debugpy/bin/python',
+          python = get_python_path(vim.fn.getcwd()),
           dap = {
             python = { '-Xfrozen_modules=off', '--multiprocess', '--qt-support=auto' },
             console = 'integratedTerminal',

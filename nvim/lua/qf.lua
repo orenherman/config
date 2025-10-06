@@ -39,7 +39,6 @@ local function delete_qf_items()
   vim.fn.cursor(start_idx, 1)
 end
 
-vim.notify("asdasd")
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function()

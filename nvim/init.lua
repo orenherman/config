@@ -29,7 +29,7 @@ vim.keymap.set('n', '<leader>Fy', '<cmd>set filetype=yaml<CR>', { desc = 'Set [F
 vim.keymap.set('n', '<leader>Fs', '<cmd>set filetype=sql<CR>', { desc = 'Set [F]iletype to [S]QL' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>E', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set('n', '[b', ':bprev<CR>', { desc = 'Go to previous [B]uffer' })
@@ -76,6 +76,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_user_command('BufOnly', function()
+  local current = vim.api.nvim_get_current_buf()
+  local buffers = vim.api.nvim_list_bufs()
+
+  for _, buf in ipairs(buffers) do
+    if buf ~= current and vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = false })
+    end
+  end
+end, {})
+
 vim.lsp.config('*', {
   capabilities = {
     textDocument = {
@@ -97,8 +108,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
     map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-    map('<C-k>', vim.lsp.buf.hover, 'Hover Documentation')
-    map('K', vim.lsp.buf.signature_help, 'Signature Help')
+    -- map('<C-k>', vim.lsp.buf.hover, 'Hover Documentation')
+    -- map('K', vim.lsp.buf.signature_help, 'Signature Help')
     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -162,14 +173,5 @@ require('lazy').setup('plugins', {
   },
 })
 
-require('mirrord').setup({
-  -- Optional configuration options:
-  delve_path = "dlv", -- Path to delve binary
-  timeout = 20,       -- Timeout for delve initialization
-  virtual_text = {    -- Config for nvim-dap-virtual-text
-    enabled = true,
-    virt_text_pos = 'eol',
-  }
-})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -5,7 +5,7 @@ return {
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
       'williamboman/mason.nvim',
-      'jay-babu/mason-nvim-dap.nvim',
+      'mfussenegger/nvim-dap-python',
       'leoluz/nvim-dap-go',
       'mxsdev/nvim-dap-vscode-js',
       {
@@ -18,30 +18,11 @@ return {
       local dap = require 'dap'
       local dapui = require 'dapui'
 
-      require('mason-nvim-dap').setup {
-        automatic_installation = true,
-        handlers = {
-          function(config)
-            require('mason-nvim-dap').default_setup(config)
-          end,
-          python = function(config)
-            local home_dir = os.getenv 'HOME'
-            config.adapters = {
-              type = 'executable',
-              command = home_dir .. '/.virtualenvs/debugpy/bin/python',
-              args = {
-                '-m',
-                'debugpy.adapter',
-              },
-            }
-            require('mason-nvim-dap').default_setup(config)
-          end,
-        },
-        ensure_installed = {
-          'delve',
-          'python',
-        },
-      }
+      require('dap-go').setup {}
+
+      -- Setup Python debugging
+      local home_dir = os.getenv 'HOME'
+      require('dap-python').setup(home_dir .. '/.virtualenvs/debugpy/bin/python')
 
       -- Basic debugging keymaps, feel free to change to your liking!
       vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })

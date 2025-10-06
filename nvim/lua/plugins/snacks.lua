@@ -106,6 +106,14 @@ return {
       desc = 'Git Browse',
       mode = { 'n', 'v' },
     },
+    {
+      '<leader>gY',
+      function()
+        Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
+      end,
+      desc = 'Git Browse (copy)',
+      mode = { 'n', 'v' }
+    },
     -- {
     --   '<c-/>',
     --   function()
