@@ -19,12 +19,12 @@ end
 
 return {
   'nvim-neotest/neotest',
-  ft = { 'python', 'go', 'typescript', 'javascript' },
+  lazy = false,
   dependencies = {
     'nvim-neotest/nvim-nio',
     'nvim-lua/plenary.nvim',
     'antoinemadec/FixCursorHold.nvim',
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter", -- Optional, but recommended
     {
       'fredrikaverpil/neotest-golang', -- Installation
       dependencies = {
@@ -39,12 +39,16 @@ return {
     'Neotest',
   },
   config = function()
+    -- Initialize dap-go first (required for neotest-golang debugging)
+    require('dap-go').setup()
+    local config = {
+      runner = "gotestsum", -- Optional, but recommended
+    }
+
     local neotest = require 'neotest'
     neotest.setup {
       adapters = {
-        require 'neotest-golang' {
-          dap_go_enabled = true,
-        },
+        require("neotest-golang")(config),
         require 'neotest-vitest',
         require 'neotest-python' {
           runner = 'pytest',

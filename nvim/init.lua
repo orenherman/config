@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
-vim.g.python3_host_prog = '/Users/orenherman/.virtualenvs/debugpy/bin/python3'
+-- vim.g.python3_host_prog = '/Users/orenherman/.virtualenvs/debugpy/bin/python3'
 vim.opt.number = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = false

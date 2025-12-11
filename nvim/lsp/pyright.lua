@@ -9,6 +9,7 @@ local function get_python_path(workspace)
 
   for _, path in ipairs(venv_paths) do
     if vim.fn.executable(path) == 1 then
+      vim.notify("Using virtualenv python: " .. path)
       return path
     end
   end

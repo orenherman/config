@@ -18,11 +18,42 @@ return {
       local dap = require 'dap'
       local dapui = require 'dapui'
 
-      require('dap-go').setup {}
+      require('dap-go').setup {
+        dap_configurations = {
+          {
+            type = "go",
+            name = "Attach remote",
+            mode = "remote",
+            request = "attach",
+          },
+        },
+        delve = {
+          port = "38697",
+        },
+      }
 
       -- Setup Python debugging
-      local home_dir = os.getenv 'HOME'
-      require('dap-python').setup(home_dir .. '/.virtualenvs/debugpy/bin/python')
+      local function get_python_path(workspace)
+        -- First, try to find a virtual environment in common locations
+        local venv_paths = {
+          workspace .. '/.venv/bin/python',
+          workspace .. '/venv/bin/python',
+          workspace .. '/env/bin/python',
+          workspace .. '/.env/bin/python',
+        }
+
+        for _, path in ipairs(venv_paths) do
+          if vim.fn.executable(path) == 1 then
+            vim.notify("Using virtualenv python: " .. path)
+            return path
+          end
+        end
+
+        -- Fallback to system python
+        return "/Users/orenherman/.virtualenvs/debugpy/bin/python"
+      end
+      local ppath = get_python_path(vim.fn.getcwd())
+      require('dap-python').setup(ppath)
 
       -- Basic debugging keymaps, feel free to change to your liking!
       vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })

@@ -1,5 +1,6 @@
-return { -- Highlight, edit, and navigate code
+return {           -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
+  branch = "main", -- NOTE; not the master branch!
   build = ':TSUpdate',
   opts = {
     ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
@@ -16,3 +17,4 @@ return { -- Highlight, edit, and navigate code
     require('nvim-treesitter.configs').setup(opts)
   end,
 }
+
