@@ -57,7 +57,8 @@ setopt hist_find_no_dups
 
 # envs
 export GOPATH=/Users/orenherman/go
-export PATH="$PATH:/opt/homebrew/bin/bin:/Users/orenherman/go/bin"
+export PATH="$PATH:/opt/homebrew/bin/bin:/Users/orenherman/go/bin:/Users/orenherman/.npm-global/bin:/Users/orenherman/.local/bin"
+export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -70,12 +71,17 @@ export GOPRIVATE="github.com/stackpulse,stackpulse.dev,github.com/torqio"
 export GOARCH=arm64
 export GOOS=darwin
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=fg=red,bold,underline
+export ANTHROPIC_API_KEY=
+export OPENAI_API_KEY=
 
 # aliases
+alias python=python3
 alias vim=nvim
+alias nvims='nvim -c "lua MiniSessions.read(\"Session.vim\")"'
+alias cloud_sql_proxy=cloud-sql-proxy
 alias sf='fzf -m --preview="bat --color=always {}" --bind "ctrl-w:execute(nvim {+})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort"'
-alias -g W='| nvim -c "setlocal buftype=nofile bufhidden=wipe" -c "nnoremap <buffer> q :q!<CR>" -'
-alias lsa='eza -1 -l --icons'
+alias -g W='pbpaste | nvim -c "setlocal buftype=nofile bufhidden=wipe" -c "nnoremap <buffer> q :q!<CR>" -'
+alias lsa='eza -1 -l --icons -a'
 # alias ls='eza'
 alias ls="eza --color=always --git --no-user --no-permissions --icons=always --group-directories-first"
 alias jqre="jq '.message | fromjson'"
@@ -90,6 +96,7 @@ alias gmm='git fetch && git merge origin/master'
 alias gcb='git checkout -b '
 alias gpu='git push -u origin $(git branch --show)'
 alias gp='git push'
+alias gmo='gcm && nvims .'
 alias pgtnlp="~/dev/cloud_sql_proxy -instances=stackpulse-production:us-central1:torqdb=tcp:5432"
 alias pgtnls="~/dev/cloud_sql_proxy -instances=stackpulse-staging:europe-west1:torqdb=tcp:5431"
 alias pgtnld="~/dev/cloud_sql_proxy -instances=stackpulse-development:europe-west1:stackpulsedb=tcp:5430"
@@ -121,7 +128,8 @@ bq-dump-all-accounts () {
   a.short_name AS account_short_name,
   a.name AS account_name,
   a.id AS account_id,
-  o.id AS organization_id
+  o.id AS organization_id,
+  o.region as org_region 
 FROM
   $project.bi.dim_accounts a
 LEFT JOIN
@@ -135,7 +143,7 @@ EOF
 )
 	tmp_accounts_file="/tmp/accounts.tmp.json"
 	bq query --format=prettyjson --use_legacy_sql=false --max_rows 100000 $query 2> /dev/null > $tmp_accounts_file
-	cat $tmp_accounts_file | jq -r '.[] | [.organization_name, .account_short_name, .account_name, .account_id ] | @csv' | sort | tr -d '"' > $accounts_file
+	cat $tmp_accounts_file | jq -r '.[] | [.organization_name, .account_short_name, .account_name, .account_id, .org_region, .organization_id ] | @csv' | sort | tr -d '"' > $accounts_file
 }
 ynv () {
         yq $1 -o=json | jnv
@@ -145,5 +153,34 @@ function gcob() {
 	git fetch
         git checkout -b $branch_name origin/master
  }
+function kgr() {
+    local deployment_name=$1
+    local context=$2
 
+    if [ -z "$context" ]; then
+        kubectl argo rollouts get rollout "$deployment_name" -w
+    else
+        kubectl argo rollouts get rollout "$deployment_name" -w --context "$context"
+    fi
+}
+preexec() {
+  local cmd=$1
+  if [[ $cmd == nvim* ]] || [[ $cmd == vim* ]]; then
+    # Set tab title to: nvim - directory_name
+    echo -ne "\033]0;nvim - $(basename "$PWD")\007"
+  fi
+}
+rnt() {
+    local name=$1
+    echo -ne "\033]0;$1\007"
+}
 
+source "/Users/orenherman/dev/app/local_env/app_dotfile.sh"
+
+# pnpm
+export PNPM_HOME="/Users/orenherman/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

@@ -13,8 +13,5 @@ return {           -- Highlight, edit, and navigate code
   },
   config = function(_, opts)
     require('nvim-treesitter.install').prefer_git = true
-    ---@diagnostic disable-next-line: missing-fields
-    require('nvim-treesitter.configs').setup(opts)
   end,
 }
-
